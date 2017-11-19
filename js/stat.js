@@ -1,31 +1,59 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
-  var histogramHeight = 150;
-  var barWidth = 40;
-  var indent = 50;
-  var colorActivePlayer = 'rgba(255, 0, 0, 1)';
-  var max = -1;
-  var initialX = 120;
-  var initialY = 100;
-  var lineHeight = 15;
+  var histogramData = {
+    histogramHeight: 150,
+    barWidth: 40,
+    indent: 50,
+    initialX: 120,
+    initialY: 100,
+    lineHeight: 15
+  };
+  var cloudData = {
+    startX: 100,
+    startY: 10,
+    width: 420,
+    height: 270,
+    arcSize: 10,
+    shadowShift: 10
+  };
+  var thirdX = Math.round(cloudData.startX + cloudData.width / 3);
+  var thirdY = Math.round(cloudData.startY + cloudData.height / 3);
+  var halfX = Math.round(cloudData.startX + cloudData.width / 2);
+  var halfY = Math.round(cloudData.startY + cloudData.height / 2);
 
   // cloud's shadow
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.beginPath();
-  ctx.moveTo(110, 20);
-  ctx.lineTo(275, 120);
-  ctx.bezierCurveTo(320, 10, 320, 10, 365, 20);
-  ctx.lineTo(530, 20);
-  ctx.lineTo(530, 110);
-  ctx.bezierCurveTo(540, 155, 540, 155, 530, 200);
-  ctx.lineTo(530, 290);
-  ctx.lineTo(365, 290);
-  ctx.bezierCurveTo(320, 300, 320, 300, 275, 290);
-  ctx.lineTo(110, 290);
-  ctx.lineTo(110, 200);
-  ctx.bezierCurveTo(100, 155, 100, 155, 110, 110);
-  ctx.lineTo(110, 20);
+  ctx.moveTo(cloudData.startX + cloudData.shadowShift, cloudData.startY + cloudData.shadowShift);
+  ctx.lineTo(thirdX + cloudData.shadowShift, cloudData.startY + cloudData.shadowShift);
+  ctx.bezierCurveTo(
+      halfX + cloudData.shadowShift, cloudData.startY - cloudData.arcSize + cloudData.shadowShift,
+      halfX + cloudData.shadowShift, cloudData.startY - cloudData.arcSize + cloudData.shadowShift,
+      thirdX * 2 - cloudData.startX + cloudData.shadowShift, cloudData.startY + cloudData.shadowShift
+  );
+  ctx.lineTo(cloudData.startX + cloudData.width + cloudData.shadowShift, cloudData.startY + cloudData.shadowShift);
+  ctx.lineTo(cloudData.startX + cloudData.width + cloudData.shadowShift, thirdY + cloudData.shadowShift);
+  ctx.bezierCurveTo(
+      cloudData.startX + cloudData.width + cloudData.arcSize + cloudData.shadowShift, halfY + cloudData.shadowShift,
+      cloudData.startX + cloudData.width + cloudData.arcSize + cloudData.shadowShift, halfY + cloudData.shadowShift,
+      cloudData.startX + cloudData.width + cloudData.shadowShift, thirdY * 2 - cloudData.startY + cloudData.shadowShift
+  );
+  ctx.lineTo(cloudData.startX + cloudData.width + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.shadowShift);
+  ctx.lineTo(thirdX * 2 - cloudData.startX + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.shadowShift);
+  ctx.bezierCurveTo(
+      halfX + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.arcSize + cloudData.shadowShift,
+      halfX + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.arcSize + cloudData.shadowShift,
+      thirdX + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.shadowShift
+  );
+  ctx.lineTo(cloudData.startX + cloudData.shadowShift, cloudData.startY + cloudData.height + cloudData.shadowShift);
+  ctx.lineTo(cloudData.startX + cloudData.shadowShift, thirdY * 2 - cloudData.startY + cloudData.shadowShift);
+  ctx.bezierCurveTo(
+      cloudData.startX - cloudData.arcSize + cloudData.shadowShift, halfY + cloudData.shadowShift,
+      cloudData.startX - cloudData.arcSize + cloudData.shadowShift, halfY + cloudData.shadowShift,
+      cloudData.startX + cloudData.shadowShift, thirdY + cloudData.shadowShift
+  );
+  ctx.lineTo(cloudData.startX + cloudData.shadowShift, cloudData.startY + cloudData.shadowShift);
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
@@ -33,19 +61,35 @@ window.renderStatistics = function (ctx, names, times) {
   // white cloud
   ctx.fillStyle = 'rgba(256, 256, 256, 1.0)';
   ctx.beginPath();
-  ctx.moveTo(100, 10);
-  ctx.lineTo(265, 10);
-  ctx.bezierCurveTo(310, 0, 310, 0, 355, 10);
-  ctx.lineTo(520, 10);
-  ctx.lineTo(520, 100);
-  ctx.bezierCurveTo(530, 145, 530, 145, 520, 190);
-  ctx.lineTo(520, 280);
-  ctx.lineTo(355, 280);
-  ctx.bezierCurveTo(310, 290, 310, 290, 265, 280);
-  ctx.lineTo(100, 280);
-  ctx.lineTo(100, 190);
-  ctx.bezierCurveTo(90, 145, 90, 145, 100, 100);
-  ctx.lineTo(100, 10);
+  ctx.moveTo(cloudData.startX, cloudData.startY);
+  ctx.lineTo(thirdX, cloudData.startY);
+  ctx.bezierCurveTo(
+      halfX, cloudData.startY - cloudData.arcSize,
+      halfX, cloudData.startY - cloudData.arcSize,
+      thirdX * 2 - cloudData.startX, cloudData.startY
+  );
+  ctx.lineTo(cloudData.startX + cloudData.width, cloudData.startY);
+  ctx.lineTo(cloudData.startX + cloudData.width, thirdY);
+  ctx.bezierCurveTo(
+      cloudData.startX + cloudData.width + cloudData.arcSize, halfY,
+      cloudData.startX + cloudData.width + cloudData.arcSize, halfY,
+      cloudData.startX + cloudData.width, thirdY * 2 - cloudData.startY
+  );
+  ctx.lineTo(cloudData.startX + cloudData.width, cloudData.startY + cloudData.height);
+  ctx.lineTo(thirdX * 2 - cloudData.startX, cloudData.startY + cloudData.height);
+  ctx.bezierCurveTo(
+      halfX, cloudData.startY + cloudData.height + cloudData.arcSize,
+      halfX, cloudData.startY + cloudData.height + cloudData.arcSize,
+      thirdX, cloudData.startY + cloudData.height
+  );
+  ctx.lineTo(cloudData.startX, cloudData.startY + cloudData.height);
+  ctx.lineTo(cloudData.startX, thirdY * 2 - cloudData.startY);
+  ctx.bezierCurveTo(
+      cloudData.startX - cloudData.arcSize, halfY,
+      cloudData.startX - cloudData.arcSize, halfY,
+      cloudData.startX, thirdY
+  );
+  ctx.lineTo(cloudData.startX, cloudData.startY);
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
@@ -58,31 +102,41 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', 310, 60);
   ctx.textAlign = 'left';
 
-  // Histogram
-  for (var i = 0; i < times.length; i++) {
-    var time = times[i];
-    if (time > max) {
-      max = time;
-    }
+  // Useful functions
+  function getMaxFromArray(customArray) {
+    var max = -1;
+    customArray.forEach(function (item) {
+      if (item > max) {
+        max = item;
+      }
+    });
+    return max;
   }
-
-  var step = histogramHeight / max;
 
   function getColorPlayer(player) {
-    if (player === 'Вы') {
-      return colorActivePlayer;
-    } else {
-      var opacityRandom = Math.random();
-      var colorPlayer = 'rgba(0, 0, 255, ' + opacityRandom + ')';
-      return colorPlayer;
-    }
+    return player === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, ' + Math.random() + ')';
   }
 
-  for (i = 0; i < times.length; i++) {
+  // Histogram
+  var step = histogramData.histogramHeight / getMaxFromArray(times);
+  for (var i = 0; i < times.length; i++) {
     ctx.fillStyle = getColorPlayer(names[i]);
-    ctx.fillRect(initialX + (barWidth + indent) * i, histogramHeight - times[i] * step + initialY, barWidth, times[i] * step);
+    ctx.fillRect(
+        histogramData.initialX + (histogramData.barWidth + histogramData.indent) * i,
+        histogramData.histogramHeight - times[i] * step + histogramData.initialY,
+        histogramData.barWidth,
+        times[i] * step
+    );
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
-    ctx.fillText(names[i], initialX + (barWidth + indent) * i, histogramHeight + lineHeight + initialY);
-    ctx.fillText(Math.round(times[i]), initialX + (barWidth + indent) * i, histogramHeight - times[i] * step + initialY - lineHeight);
+    ctx.fillText(
+        names[i],
+        histogramData.initialX + (histogramData.barWidth + histogramData.indent) * i,
+        histogramData.histogramHeight + histogramData.lineHeight + histogramData.initialY
+    );
+    ctx.fillText(
+        Math.round(times[i]),
+        histogramData.initialX + (histogramData.barWidth + histogramData.indent) * i,
+        histogramData.histogramHeight - times[i] * step + histogramData.initialY - histogramData.lineHeight
+    );
   }
 };
