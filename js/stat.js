@@ -6,12 +6,11 @@ window.renderStatistics = function (ctx, names, times) {
   var indent = 50;
   var colorActivePlayer = 'rgba(255, 0, 0, 1)';
   var max = -1;
-  var maxIndex = -1;
   var initialX = 120;
   var initialY = 100;
   var lineHeight = 15;
 
-  //cloud's shadow
+  // cloud's shadow
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.beginPath();
   ctx.moveTo(110, 20);
@@ -31,7 +30,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.stroke();
   ctx.fill();
 
-  //white cloud
+  // white cloud
   ctx.fillStyle = 'rgba(256, 256, 256, 1.0)';
   ctx.beginPath();
   ctx.moveTo(100, 10);
@@ -51,7 +50,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.stroke();
   ctx.fill();
 
-  //Message on the cloud
+  // Message on the cloud
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.textAlign = 'center';
@@ -59,12 +58,11 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', 310, 60);
   ctx.textAlign = 'left';
 
-  //Histogram
-  for (var i = 0 ; i < times.length; i++) {
+  // Histogram
+  for (var i = 0; i < times.length; i++) {
     var time = times[i];
     if (time > max) {
       max = time;
-      maxIndex = i;
     }
   }
 
@@ -80,7 +78,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
 
-  for(var i = 0; i < times.length; i++) {
+  for (i = 0; i < times.length; i++) {
     ctx.fillStyle = getColorPlayer(names[i]);
     ctx.fillRect(initialX + (barWidth + indent) * i, histogramHeight - times[i] * step + initialY, barWidth, times[i] * step);
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
