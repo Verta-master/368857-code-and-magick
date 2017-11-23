@@ -76,13 +76,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   // Useful functions
   function getMaxFromArray(customArray) {
-    var max = -1;
-    customArray.forEach(function (item) {
-      if (item > max) {
-        max = item;
-      }
-    });
-    return max;
+    return Math.max.apply(null, customArray);
   }
 
   function getColorPlayer(player) {
