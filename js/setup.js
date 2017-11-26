@@ -20,12 +20,11 @@ function getRandomInt(min, max) {
 
 // Заполнение массива данных
 function createWizard() {
-  var wizard = {
+  return {
     name: WIZARD_NAMES[getRandomInt(0, WIZARD_NAMES.length)] + ' ' + WIZARD_SURNAMES[getRandomInt(0, WIZARD_SURNAMES.length)],
     coatColor: COAT_COLORS[getRandomInt(0, COAT_COLORS.length)],
     eyesColor: EYES_COLORS[getRandomInt(0, EYES_COLORS.length)]
   };
-  return wizard;
 }
 
 for (var i = 0; i < WIZARD_NUMBER; i++) {
